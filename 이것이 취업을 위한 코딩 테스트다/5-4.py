@@ -1,4 +1,4 @@
-# bfs
+# BFS
 
 from collections import deque
 

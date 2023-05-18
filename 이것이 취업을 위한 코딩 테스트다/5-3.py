@@ -29,7 +29,7 @@ def bfs(graph, r, c):
 
 
 n, m = map(int, input().split())  # 1 <= n, m <= 1000
-case = [list(map(int, list(input()))) for _ in range(n)]  # 길이가 m인 숫자로 이루어진 문자열 n개
+case = [list(map(int, input())) for _ in range(n)]
 
 answer = 0
 for i in range(n):

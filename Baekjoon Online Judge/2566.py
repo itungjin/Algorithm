@@ -11,3 +11,4 @@ for r in range(9):
 
 print(max)
 print(row, col)
+1

@@ -4,13 +4,21 @@ input = sys.stdin.readline
 
 N = int(input().rstrip())
 towers = list(map(int, input().split()))
-stack = deque()
-answers = [0 for _ in range(N)]
-for i in range(N):
-    for j in range(i+1, N):
-        if towers[j] > towers[i]:
-            break
-        else:
-            answers[j] = i+1
 
-print(*answers)
+answer = [0 for _ in range(N)]
+
+
+def find(start, end):
+    if end < 0:
+        return 0
+    else:
+        if towers[start] <= towers[end]:
+            return end + 1
+        else:
+            return find(start, answer[end] - 1)
+
+
+for i in range(1, N):
+    answer[i] = find(i, i-1)
+
+print(*answer)

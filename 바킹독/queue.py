@@ -8,12 +8,10 @@ class queue:
         self.__tail = 0
 
     def push(self, x):
-        self.__dat[self.__tail] = x
         self.__tail += 1
 
     def pop(self):
         self.__head += 1
-        return self.__dat[self.__head - 1]
 
     def front(self):
         return self.__dat[self.__head]

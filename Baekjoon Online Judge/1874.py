@@ -1,34 +1,32 @@
-# 스택
-
-from collections import deque
 import sys
 input = sys.stdin.readline
 
 n = int(input().rstrip())
-pushable = 1
-stack = deque()
-answer = deque()
-for _ in range(n):
-    num = int(input().rstrip())
-    if num < pushable:
-        if len(stack) > 0 and stack.pop() == num:
-            answer.append('-')
-        else:
-            answer.appendleft(False)
-            break
-    elif num == pushable:
-        answer.append('+')
-        answer.append('-')
-        pushable += 1
-    else:
-        while pushable <= num:
+seq = [0] * n
+for i in range(n):
+    seq[i] = int(input().rstrip())
+
+answer = []
+stack = []
+i = 1
+is_possible = True
+for element in seq:
+    if element >= i:
+        while element >= i:
+            stack.append(i)
             answer.append('+')
-            stack.append(pushable)
-            pushable += 1
-        answer.append('-')
+            i += 1
         stack.pop()
-if answer[0] == False:
-    print('NO')
-else:
+        answer.append('-')
+    else:
+        a = stack.pop()
+        answer.append('-')
+        if a != element:
+            is_possible = False
+            break
+
+if is_possible:
     for opr in answer:
         print(opr)
+else:
+    print('NO')

@@ -1,24 +1,26 @@
-ROW, COL = 10, 10
+MAX = 502
+ROW, COL = 7, 10
 
-visited = [[False] * COL for _ in range(ROW)]
-coordinate = [[0] * COL for _ in range(ROW)]
-stack = []
+visited = [[False] * MAX for _ in range(MAX)]
+board = [
+    [1, 1, 1, 0, 1, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    [1, 1, 1, 0, 1, 0, 0, 0, 0, 0],
+    [1, 1, 0, 0, 1, 0, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+dr = [1, -1, 0, 0]
+dc = [0, 0, 1, -1]
+s = []
 
-def dfs(row, col):
-    visited[row][col] = True
-    stack.append((row, col))
-
-    dx = [0, 0, 1, -1]
-    dy = [1, -1, 0, 0]
-    while stack:
-        row, col = stack.pop()
-        print(f'({row}, {col})')
-        for i in range(4):
-            nx = row + dx[i]
-            ny = col + dy[i]
-            if 0 <= nx < ROW and 0 <= ny < COL:
-                if not visited[nx][ny]:
-                    visited[nx][ny] = True
-                    stack.append((nx, ny))
-
-dfs(0, 0)
+visited[0][0] = True
+s.append((0, 0))
+while s:
+    r, c = s.pop()
+    print(f'({r},{c})')
+    for i in range(4):
+        nr, nc = r + dr[i], c + dc[i]
+        if 0 <= nr < ROW and 0 <= nc < COL and board[nr][nc] == 1 and not visited[nr][nc]:
+            visited[nr][nc] = True
+            s.append((nr, nc))

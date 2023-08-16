@@ -3,7 +3,7 @@ from collections import deque
 MAX = 502
 ROW, COL = 7, 10
 
-visited = [[False] * COL for _ in range(MAX)]
+visited = [[False] * MAX for _ in range(MAX)]
 board = [
     [1, 1, 1, 0, 1, 0, 0, 0, 0, 0],
     [1, 0, 0, 0, 1, 0, 0, 0, 0, 0],

@@ -8,6 +8,7 @@ class queue:
         self.__tail = 0
 
     def push(self, x):
+        self.__dat[self.__tail] = x
         self.__tail += 1
 
     def pop(self):

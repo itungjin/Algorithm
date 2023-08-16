@@ -1,2 +1,8 @@
 .vscode
 .DS_Store
+/.idea/Algorithm.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/prettier.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/vcs.xml

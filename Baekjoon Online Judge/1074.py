@@ -1,32 +1,20 @@
-N, r, c = map(int, input().split())
-
-count = -1
-
-visit = ((0, 0), (0, 1), (1, -1), (0, 1))
+N, R, C = map(int, input().split())
 
 
-def search(n, a, b):
-    global count
-    if n == 1:
-        for i in range(4):
-            count += 1
-            a, b = a + visit[i][0], b + visit[i][1]
-            if a == r and b == c:
-                print(count)
-                return
+def solution(n, r, c):
+    if n == 0:
+        return 0
+
+    half = 1 << (n - 1)
+
+    if R < r + n // 2 and C < c + n // 2:
+        return solution(n // 2, r, c)
+    elif R < r + n // 2 and c + n // 2 <= C:
+        return half * half + solution(n // 2, r, c + n // 2)
+    elif r + n // 2 <= R and C < c + n // 2:
+        return 2 * half * half + solution(n // 2, r + n // 2, c)
     else:
-        temp = 2 ** (n - 1)
-        if a <= r < a + temp and b <= c < b + temp:
-            search(n - 1, a, b)
-        elif a <= r < a + temp and b + temp <= c < b + 2 * temp:
-            count += temp * temp
-            search(n - 1, a, b + temp)
-        elif a + temp <= r < a + 2 * temp and b <= c < b + temp:
-            count += temp * temp * 2
-            search(n - 1, a + temp, b)
-        else:
-            count += temp * temp * 3
-            search(n - 1, a + temp, b + temp)
+        return 3 * half * half + solution(n // 2, r + n // 2, c + n // 2)
 
 
-search(N, 0, 0)
+print(solution(N, 0, 0))

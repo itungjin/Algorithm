@@ -3,12 +3,13 @@ N = int(input())
 print(pow(2, N) - 1)
 
 
-def hanoi(n, a, tmp, b):
+def solution(n, a, b, c):
     if n == 0:
         return
-    hanoi(n - 1, a, b, tmp)
-    print(a, b)
-    hanoi(n - 1, tmp, a, b)
+
+    solution(n - 1, a, c, b)
+    print(a, c)
+    solution(n - 1, b, a, c)
 
 
-hanoi(N, 1, 2, 3)
+solution(N, 1, 2, 3)

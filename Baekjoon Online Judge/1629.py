@@ -1,13 +1,14 @@
 A, B, C = map(int, input().split())
 
 
-def recursion(a, b, c):
+def solution(a, b):
     if b == 1:
-        return a % c
-    if b % 2 == 1:
-        return recursion(a * a % c, b // 2, c) * a % c
+        return a % C
+
+    if b % 2 == 0:
+        return solution(a * a % C, b // 2)
     else:
-        return recursion(a * a % c, b // 2, c)
+        return solution(a * a % C, b // 2) * a % C
 
 
-print(recursion(A, B, C))
+print(solution(A, B))

@@ -1,29 +1,29 @@
+import sys
+
+_input = sys.stdin.readline
+
 N = int(input())
-video = [list(map(int, input())) for _ in range(N)]
-tree = ""
+v = [list(map(int, _input().rstrip())) for _ in range(N)]
 
 
-def check(n, a, b):
-    for r in range(a, a + n):
-        for c in range(b, b + n):
-            if video[a][b] != video[r][c]:
+def is_identical(n, r, c):
+    for i in range(n):
+        for j in range(n):
+            if v[r][c] != v[r + i][c + j]:
                 return False
     return True
 
 
-def compression(n, a, b):
-    global tree
-    if check(n, a, b):
-        tree += str(video[a][b])
+def solution(n, r, c):
+    if is_identical(n, r, c):
+        print(v[r][c], end='')
     else:
-        tree += '('
+        print('(', end='')
         n //= 2
-        da = [0, 0, n, n]
-        db = [0, n, 0, n]
-        for i in range(4):
-            compression(n, a + da[i], b + db[i])
-        tree += ')'
+        for i in range(2):
+            for j in range(2):
+                solution(n, r + i * n, c + j * n)
+        print(')', end='')
 
 
-compression(N, 0, 0)
-print(tree)
+solution(N, 0, 0)

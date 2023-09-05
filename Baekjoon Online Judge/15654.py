@@ -1,17 +1,18 @@
 N, M = map(int, input().split())
-
-arr = [0] * M
+arr = list(map(int, input().split()))
+arr.sort()
 is_used = [False] * (N + 1)
+answer = [0] * M
 
 
 def solution(n):
     if n == M:
-        print(*arr)
+        print(*answer)
         return
     for i in range(1, N + 1):
         if not is_used[i]:
-            arr[n] = i
             is_used[i] = True
+            answer[n] = arr[i - 1]
             solution(n + 1)
             is_used[i] = False
 

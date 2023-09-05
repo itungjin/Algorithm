@@ -1,20 +1,21 @@
 N = int(input())
-stars = [[' '] * N for _ in range(N)]
+
+square = [[' '] * N for _ in range(N)]
 
 
-def recursion(n, a, b):
-    if n >= 3:
-        n //= 3
-        da = [0, 0, 0, n, n, 2 * n, 2 * n, 2 * n]
-        db = [0, n, 2 * n, 0, 2 * n, 0, n, 2 * n]
-        for i in range(8):
-            recursion(n, a + da[i], b + db[i])
+def solution(n, r, c):
+    if n == 1:
+        square[r][c] = '*'
     else:
-        stars[a][b] = '*'
+        n //= 3
+        for i in range(3):
+            for j in range(3):
+                if not (i == 1 and j == 1):
+                    solution(n, r + i * n, c + j * n)
 
 
-recursion(N, 0, 0)
-for star in stars:
-    for s in star:
-        print(s, end='')
+solution(N, 0, 0)
+for i in range(N):
+    for j in range(N):
+        print(square[i][j], end='')
     print()

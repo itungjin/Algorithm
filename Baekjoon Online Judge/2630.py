@@ -1,31 +1,30 @@
 import sys
 
-input = sys.stdin.readline
+_input = sys.stdin.readline
 
-N = int(input().rstrip())
-papers = [list(map(int, input().split())) for _ in range(N)]
-color = [0] * 2
-
-
-def cut_check(n, r, c):
-    for i in range(r, r + n):
-        for j in range(c, c + n):
-            if papers[r][c] != papers[i][j]:
-                return True
-    return False
+N = int(input())
+cp = [list(map(int, _input().split())) for _ in range(N)]
+answer = [0, 0]
 
 
-def search(n, r, c):
-    if not cut_check(n, r, c):
-        color[papers[r][c]] += 1
-        return
-    n = n // 2
-    nr = [0, 0, n, n]
-    nc = [0, n, 0, n]
-    for i in range(4):
-        search(n, r + nr[i], c + nc[i])
+def is_identical(n, r, c):
+    for i in range(n):
+        for j in range(n):
+            if cp[r][c] != cp[r + i][c + j]:
+                return False
+    return True
 
 
-search(N, 0, 0)
-print(color[0])
-print(color[1])
+def solution(n, r, c):
+    if is_identical(n, r, c):
+        answer[cp[r][c]] += 1
+    else:
+        n //= 2
+        for i in range(2):
+            for j in range(2):
+                solution(n, r + i * n, c + j * n)
+
+
+solution(N, 0, 0)
+print(answer[0])
+print(answer[1])

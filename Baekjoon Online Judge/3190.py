@@ -1,85 +1,51 @@
-# 구현
-# 사과를 먹으면 뱀 길이 += 1
-# 벽 또는 자기자신과 부딪히면 게임 끝
-# NxN 정사각 보드 위에서 게임 진행, 벽은 상하좌우 끝에 존재
-# 게임 시작시 뱀의 위치는 맨위 맨좌측, 길이는 1, 방향은 오른쪽
-# 뱀이 이동시 길이 + 1, 머리가 늘어남
-# 이동한 칸에 자기 자신이 있으면 게임 끝
-# 이동한 칸에 사과가 있으면 그대로 이동 끝
-# 이동한 칸에 사과가 없으면 길이 - 1, 꼬리가 없어짐
+import sys
 from collections import deque
 
-n = int(input()) # 2 <= n <= 100 보드의 크기
-k = int(input()) # 0 <= k <= 100 사과의 개수
+input = sys.stdin.readline
 
-# 사과의 위치
-apples = [list(map(int, input().split())) for _ in range(k)]
+board = [[0] * 100 for _ in range(100)]
+N = int(input().rstrip())  # board의 크기
+K = int(input().rstrip())  # 사과의 개수
+for _ in range(K):
+    r, c = map(int, input().split())
+    board[r - 1][c - 1] = -1
+L = int(input().rstrip())  # 방향 변환 횟수
+turn = [0] * L
+for i in range(L):
+    X, C = input().split()
+    turn[i] = (int(X), C)
 
-l = int(input()) # 1 <= L <= 100 뱀의 방향 변환 횟수
-
-# 방향 변환 정보
-change_directions = [input().split() for _ in range(l)]
-
-directions = ([0, 1], [1, 0], [0, -1], [-1, 0])
-board = [[0] * n for _ in range(n)]
+r, c = 0, 0
+time = 0
+turn_idx = 0
+d = 0
+dr = [0, 1, 0, -1]
+dc = [1, 0, -1, 0]
 board[0][0] = 1
-for apple in apples:
-    board[apple[0] - 1][apple[1] - 1] = 2
-
-direction = 0
-snake = deque([[0, 0]])
-head = [0, 0]
-answer = 0
-game_over = False
-
-for second, next_direction in change_directions:
-    while int(second) > answer:
-        answer += 1
-        head = [head[0] + directions[direction][0], head[1] + directions[direction][1]]
-        if 0 <= head[0] < n and 0 <= head[1] < n:
-            if board[head[0]][head[1]] == 1:
-                game_over = True
-                break
-            else:
-                if board[head[0]][head[1]] == 2:
-                    board[head[0]][head[1]] = 1
-                    snake.append([head[0], head[1]])
-                else:
-                    board[head[0]][head[1]] = 1
-                    snake.append([head[0], head[1]])
-                    tail = snake.popleft()
-                    board[tail[0]][tail[1]] = 0
+q = deque([(0, 0)])
+while True:
+    time += 1
+    nr, nc = r + dr[d], c + dc[d]
+    if 0 <= nr < N and 0 <= nc < N:
+        if board[nr][nc] == 0:
+            board[nr][nc] = 1
+            q.append((nr, nc))
+            tr, tc = q.popleft()
+            board[tr][tc] = 0
+            r, c = nr, nc
+        elif board[nr][nc] == -1:
+            board[nr][nc] = 1
+            q.append((nr, nc))
+            r, c = nr, nc
         else:
-            game_over = True
             break
-    if game_over:
-        break
-
-    if next_direction == 'D':
-        direction = direction + 1 if direction != 3 else 0
     else:
-        direction = direction - 1 if direction != 0 else 3
-
-if game_over:
-    print(answer)
-else:
-    while True:
-        answer += 1
-        head = [head[0] + directions[direction][0], head[1] + directions[direction][1]]
-        if 0 <= head[0] < n and 0 <= head[1] < n:
-            if board[head[0]][head[1]] == 1:
-                game_over = True
-                break
+        break
+    if turn_idx < L:
+        if turn[turn_idx][0] == time:
+            if turn[turn_idx][1] == 'L':
+                d = (d - 1) % 4
             else:
-                if board[head[0]][head[1]] == 2:
-                    board[head[0]][head[1]] = 1
-                    snake.append([head[0], head[1]])
-                else:
-                    board[head[0]][head[1]] = 1
-                    snake.append([head[0], head[1]])
-                    tail = snake.popleft()
-                    board[tail[0]][tail[1]] = 0
-        else:
-            game_over = True
-            break
-    print(answer)
+                d = (d + 1) % 4
+            turn_idx += 1
+print(time)

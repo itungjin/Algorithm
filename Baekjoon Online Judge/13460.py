@@ -20,51 +20,50 @@ dc = [-1, 0, 1, 0]
 
 
 def tilt(d, br, bc, rr, rc):
-    nbr, nbc, nrr, nrc = br, bc, rr, rc
     conflict_occur = False
     red_fall = False
 
     # 빨간 구슬 이동(필요시 파란 구슬 이동)
     while True:
-        if nrr + dr[d] == nbr and nrc + dc[d] == nbc:
+        if rr + dr[d] == br and rc + dc[d] == bc:
             if conflict_occur:
                 break
             conflict_occur = True
             while True:
-                if board[nbr + dr[d]][nbc + dc[d]] == '.':
-                    nbr += dr[d]
-                    nbc += dc[d]
-                elif board[nbr + dr[d]][nbc + dc[d]] == '#':
+                if board[br + dr[d]][bc + dc[d]] == '.':
+                    br += dr[d]
+                    bc += dc[d]
+                elif board[br + dr[d]][bc + dc[d]] == '#':
                     break
                 else:
                     return False
-        elif board[nrr + dr[d]][nrc + dc[d]] == '.':
-            nrr += dr[d]
-            nrc += dc[d]
-        elif board[nrr + dr[d]][nrc + dc[d]] == '#':
+        elif board[rr + dr[d]][rc + dc[d]] == '.':
+            rr += dr[d]
+            rc += dc[d]
+        elif board[rr + dr[d]][rc + dc[d]] == '#':
             break
         else:
             red_fall = True
-            nrr += dr[d]
-            nrc += dc[d]
+            rr += dr[d]
+            rc += dc[d]
             break
 
     # 파란 구슬 이동(빨간 구슬 이동시 파란 구슬을 이동하지 않았을 경우)
     if not conflict_occur:
         while True:
-            if board[nbr + dr[d]][nbc + dc[d]] == 'O':
+            if board[br + dr[d]][bc + dc[d]] == 'O':
                 return False
-            elif nbr + dr[d] == nrr and nbc + dc[d] == nrc:
+            elif br + dr[d] == rr and bc + dc[d] == rc:
                 break
-            elif board[nbr + dr[d]][nbc + dc[d]] == '.':
-                nbr += dr[d]
-                nbc += dc[d]
+            elif board[br + dr[d]][bc + dc[d]] == '.':
+                br += dr[d]
+                bc += dc[d]
             else:
                 break
     if red_fall:
         return True
     else:
-        return nbr, nbc, nrr, nrc
+        return br, bc, rr, rc
 
 
 answer = 11

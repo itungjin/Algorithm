@@ -1,13 +1,18 @@
-# 정렬
 import sys
 
-N = int(input())
+input = sys.stdin.readline
+
+
+def sort_order(i):
+    return (-i[1], i[2], -i[3], i[0])
+
+
+N = int(input().rstrip())
 students = [0] * N
 for i in range(N):
-    name, kor, eng, math = sys.stdin.readline().split()
-    students[i] = [name, int(kor), int(eng), int(math)]
-
-students.sort(key=lambda student: (
-    -student[1], student[2], -student[3], student[0]))
+    name, kor, eng, math = input().split()
+    kor, eng, math = map(int, [kor, eng, math])
+    students[i] = [name, kor, eng, math]
+students.sort(key=sort_order)
 for student in students:
     print(student[0])

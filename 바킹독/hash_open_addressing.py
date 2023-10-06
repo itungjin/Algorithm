@@ -19,9 +19,9 @@ def my_hash(s: str) -> int:
 def find(k: str) -> int:
     idx = my_hash(k)
     while status[idx] != -1:
-        if key[idx] == k and status[idx] == 0:
+        if key[idx] == k and status[idx] == OCCUPY:
             return idx
-        idx += 1
+        idx = (idx + 1) % M
     return -1
 
 
@@ -31,8 +31,8 @@ def insert(k: str, v: int) -> None:
         val[idx] = v
         return
     idx = my_hash(k)
-    while status[idx] == 0:
-        idx += 1
+    while status[idx] == OCCUPY:
+        idx = (idx + 1) % M
     key[idx] = k
     val[idx] = v
     status[idx] = 0
@@ -40,9 +40,8 @@ def insert(k: str, v: int) -> None:
 
 def erase(k: str) -> None:
     idx = find(k)
-    if idx == -1:
-        return
-    status[idx] = 1
+    if idx != -1:
+        status[idx] = DUMMY
 
 
 def test():

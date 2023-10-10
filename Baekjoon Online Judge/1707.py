@@ -15,29 +15,23 @@ for _ in range(K):
         graph[u].append(v)
         graph[v].append(u)
     # 거리가 짝수면 같은 집합에 속할 수 있음
-    visited = [False] * (V + 1)
+    dist = [-1] * (V + 1)
     is_bipartite = True
     for i in range(1, V + 1):
-        if visited[i]:
+        if dist[i] != -1:
             continue
-        visited[i] = True
-        belong = {i: 1}
+        dist[i] = 0
         q = deque([i])
         while q:
             v = q.popleft()
             for u in graph[v]:
-                if not visited[u]:
-                    visited[u] = True
+                if dist[u] != -1:
+                    if dist[u] == dist[v]:
+                        is_bipartite = False
+                        break
+                else:
+                    dist[u] = (dist[v] + 1) % 2
                     q.append(u)
-                    if belong[v] == 1:
-                        belong[u] = 2
-                    else:
-                        belong[u] = 1
-        for v in belong.keys():
-            for u in graph[v]:
-                if belong[v] == belong[u]:
-                    is_bipartite = False
-                    break
             if not is_bipartite:
                 break
         if not is_bipartite:

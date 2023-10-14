@@ -1,32 +1,39 @@
 import sys
+
 input = sys.stdin.readline
 
+answer = [''] * 200000
+last = 0
+stack = [0] * 100000
+top = 0
 n = int(input().rstrip())
 seq = [0] * n
 for i in range(n):
     seq[i] = int(input().rstrip())
 
-answer = []
-stack = []
-i = 1
-is_possible = True
-for element in seq:
-    if element >= i:
-        while element >= i:
-            stack.append(i)
-            answer.append('+')
-            i += 1
-        stack.pop()
-        answer.append('-')
+num = 1
+for i in range(n):
+    if seq[i] >= num:
+        while seq[i] >= num:
+            stack[top] = num
+            answer[last] = '+'
+            top += 1
+            num += 1
+            last += 1
+        answer[last] = '-'
+        last += 1
+        top -= 1
     else:
-        a = stack.pop()
-        answer.append('-')
-        if a != element:
-            is_possible = False
+        if top == 0:
+            print('NO')
             break
-
-if is_possible:
-    for opr in answer:
-        print(opr)
-else:
-    print('NO')
+        elif seq[i] == stack[top - 1]:
+            answer[last] = '-'
+            last += 1
+            top -= 1
+        else:
+            print('NO')
+            break
+if answer[2 * n - 1] != '':
+    for i in range(2 * n):
+        print(answer[i])

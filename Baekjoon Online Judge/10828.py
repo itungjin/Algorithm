@@ -1,32 +1,31 @@
-# 스택
-
 import sys
-from collections import deque
+
 input = sys.stdin.readline
 
-stack = deque()
+stack = [0] * 10000
+top = 0
 
 N = int(input().rstrip())
 for _ in range(N):
-    instruction = input().rstrip()
-    if len(instruction.split()) == 1:
-        if instruction == "pop":
-            if len(stack) == 0:
-                print(-1)
-            else:
-                print(stack.pop())
-        elif instruction == "size":
-            print(len(stack))
-        elif instruction == "empty":
-            if len(stack) == 0:
-                print(1)
-            else:
-                print(0)
-        else:  # instruction == "top"
-            if len(stack) != 0:
-                print(stack[len(stack) - 1])
-            else:
-                print(-1)
-    else:  # instruction == "push"
-        _, X = instruction.split()
-        stack.append(int(X))
+    instruction = input().split()
+    if instruction[0] == 'push':
+        stack[top] = int(instruction[1])
+        top += 1
+    elif instruction[0] == 'pop':
+        if top == 0:
+            print(-1)
+        else:
+            print(stack[top - 1])
+            top -= 1
+    elif instruction[0] == 'size':
+        print(top)
+    elif instruction[0] == 'empty':
+        if top == 0:
+            print(1)
+        else:
+            print(0)
+    else:
+        if top == 0:
+            print(-1)
+        else:
+            print(stack[top - 1])

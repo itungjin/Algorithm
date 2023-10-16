@@ -4,13 +4,12 @@ input = sys.stdin.readline
 
 N = int(input().rstrip())
 towers = list(map(int, input().split()))
-
-answer = [0] * N
-stack = [(towers[0], 1)]
-for i in range(1, N):
-    while stack and towers[i] > stack[-1][0]:
+stack = []
+for i in range(N):
+    while stack and towers[stack[-1]] < towers[i]:
         stack.pop()
-    if stack:
-        answer[i] = stack[-1][1]
-    stack.append((towers[i], i + 1))
-print(*answer)
+    if not stack:
+        print(0, end=' ')
+    else:
+        print(stack[-1] + 1, end=' ')
+    stack.append(i)

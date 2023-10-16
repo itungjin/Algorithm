@@ -2,15 +2,19 @@ import sys
 
 input = sys.stdin.readline
 
+h = [0] * 80000
 N = int(input().rstrip())
-h = [int(input().rstrip()) for _ in range(N)]
-
-answer = 0
+for i in range(N):
+    h[i] = int(input().rstrip())
 stack = []
-for i in range(0, N):
-    while stack and h[i] >= stack[-1][0]:
-        answer += i - stack.pop()[1] - 1
-    stack.append((h[i], i))
+answer = 0
+for i in range(N):
+    while stack and h[stack[-1]] <= h[i]:
+        answer += i - stack[-1] - 1
+        stack.pop()
+    stack.append(i)
+stack.pop()
 while stack:
-    answer += N - stack.pop()[1] - 1
+    answer += N - stack[-1] - 1
+    stack.pop()
 print(answer)

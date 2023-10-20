@@ -11,15 +11,15 @@ for _ in range(E):
     graph[u].append((v, w))
 dist = [INF] * (V + 1)
 dist[K] = 0
-heap = [(K, 0)]
+heap = [(0, K)]
 while heap:
-    v, d = heapq.heappop(heap)
-    if d < dist[v]:
+    d, v = heapq.heappop(heap)
+    if d != dist[v]:
         continue
     for nv, nw in graph[v]:
         if d + nw < dist[nv]:
             dist[nv] = d + nw
-            heapq.heappush(heap, (nv, d + nw))
+            heapq.heappush(heap, (d + nw, nv))
 for i in range(1, V + 1):
     if dist[i] == INF:
         print('INF')

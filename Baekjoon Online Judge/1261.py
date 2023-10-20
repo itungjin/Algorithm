@@ -6,7 +6,6 @@ input = sys.stdin.readline
 
 M, N = map(int, input().split())
 maze = [list(map(int, input().rstrip())) for _ in range(N)]
-print(maze)
 heap = [(0, 0, 0)]
 cnt = [[INF] * M for _ in range(N)]
 moves = ((1, 0), (0, 1))

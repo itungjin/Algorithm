@@ -1,6 +1,7 @@
 MAX_SIZE = 100005
 
 
+# 최소 힙
 class Heap:
     def __init__(self):
         self.__heap = [0] * MAX_SIZE
@@ -9,11 +10,11 @@ class Heap:
     def push(self, x: int):
         self.__size += 1
         self.__heap[self.__size] = x
-        now_node = self.__size
-        mother_node = now_node // 2
-        while mother_node != 0 and self.__heap[now_node] < self.__heap[mother_node]:
-            self.__heap[now_node], self.__heap[mother_node] = self.__heap[mother_node], self.__heap[now_node]
-            now_node, mother_node = mother_node, mother_node // 2
+        child = self.__size
+        parent = child // 2
+        while parent != 0 and self.__heap[child] < self.__heap[parent]:
+            self.__heap[child], self.__heap[parent] = self.__heap[parent], self.__heap[child]
+            child, parent = parent, parent // 2
 
     def top(self) -> int:
         if self.__size == 0:
@@ -24,22 +25,17 @@ class Heap:
     def pop(self):
         if self.__size == 0:
             return
-        if self.__size == 1:
-            self.__size -= 1
-            return
         self.__heap[1], self.__heap[self.__size] = self.__heap[self.__size], self.__heap[1]
         self.__size -= 1
         parent = 1
-        left_child = parent * 2
-        right_child = left_child + 1
-        while left_child <= self.__size:
+        while parent * 2 <= self.__size:
+            left_child = 2 * parent
+            right_child = left_child + 1
+
             min_child = left_child
             if right_child <= self.__size and self.__heap[left_child] > self.__heap[right_child]:
                 min_child = right_child
-            if self.__heap[parent] > self.__heap[min_child]:
-                self.__heap[parent], self.__heap[min_child] = self.__heap[min_child], self.__heap[parent]
-                parent = min_child
-                left_child = 2 * parent
-                right_child = left_child + 1
-            else:
+            if self.__heap[parent] <= self.__heap[min_child]:
                 break
+            self.__heap[parent], self.__heap[min_child] = self.__heap[min_child], self.__heap[parent]
+            parent = min_child

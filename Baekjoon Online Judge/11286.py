@@ -3,26 +3,28 @@ import heapq
 
 input = sys.stdin.readline
 
-hp = list()
-hm = list()
+min_heap = []
+max_heap = []
+
 N = int(input().rstrip())
 for _ in range(N):
     x = int(input().rstrip())
+
     if x == 0:
-        if hp and hm:
-            if hp[0] == hm[0]:
-                print(-heapq.heappop(hm))
-            elif hp[0] > hm[0]:
-                print(-heapq.heappop(hm))
+        if max_heap and min_heap:
+            if min_heap[0] >= max_heap[0]:
+                print(-heapq.heappop(max_heap))
             else:
-                print(heapq.heappop(hp))
-        elif hp:
-            print(heapq.heappop(hp))
-        elif hm:
-            print(-heapq.heappop(hm))
+                print(heapq.heappop(min_heap))
+        elif max_heap:
+            print(-heapq.heappop(max_heap))
+        elif min_heap:
+            print(heapq.heappop(min_heap))
         else:
             print(0)
-    elif x > 0:
-        heapq.heappush(hp, x)
+
     else:
-        heapq.heappush(hm, -x)
+        if x > 0:
+            heapq.heappush(min_heap, x)
+        else:
+            heapq.heappush(max_heap, -x)

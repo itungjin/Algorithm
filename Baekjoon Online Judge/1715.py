@@ -4,11 +4,14 @@ import heapq
 input = sys.stdin.readline
 
 N = int(input().rstrip())
-cards = [int(input().rstrip()) for _ in range(N)]
+cards = []
+for _ in range(N):
+    heapq.heappush(cards, int(input().rstrip()))
+
 answer = 0
-heapq.heapify(cards)
 while len(cards) != 1:
-    a, b = heapq.heappop(cards), heapq.heappop(cards)
-    heapq.heappush(cards, a + b)
-    answer += a + b
+    comparison = heapq.heappop(cards) + heapq.heappop(cards)
+    heapq.heappush(cards, comparison)
+    answer += comparison
+
 print(answer)

@@ -4,13 +4,14 @@ import sys
 input = sys.stdin.readline
 
 N = int(input().rstrip())
-heap = list()
+array = []
 for _ in range(N):
     x = int(input().rstrip())
+
     if x > 0:
-        heapq.heappush(heap, -x)
+        heapq.heappush(array, -x)
     else:
-        if heap:
-            print(-heapq.heappop(heap))
+        if array:
+            print(-heapq.heappop(array))
         else:
             print(0)

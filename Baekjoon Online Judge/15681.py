@@ -16,13 +16,13 @@ subtree = [0] * (N + 1)
 
 def solution(root):
     visited[root] = True
-    cnt = 1
+    subtree[root] = 1
     for v in graph[root]:
         if visited[v]:
             continue
-        cnt += solution(v)
-    subtree[root] = cnt
-    return cnt
+        subtree[root] += solution(v)
+    return subtree[root]
+
 
 solution(R)
 for _ in range(Q):

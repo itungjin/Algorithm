@@ -1,45 +1,49 @@
 import sys
 
+WEIGHT = ord('A')
+
 input = sys.stdin.readline
+
 
 N = int(input().rstrip())
 
-left = dict()
-right = dict()
+left = [-1] * 26
+right = [-1] * 26
 
 for _ in range(N):
     p, l, r = input().split()
-    left[p] = l
-    right[p] = r
+    if l != '.':
+        left[ord(p) - WEIGHT] = ord(l) - WEIGHT
+    if r != '.':
+        right[ord(p) - WEIGHT] = ord(r) - WEIGHT
 
 
-def preorder(n):
-    print(n, end='')
-    if left[n] != '.':
-        preorder(left[n])
-    if right[n] != '.':
-        preorder(right[n])
+def pre_order(node):
+    if node == -1:
+        return
+    print(chr(node + WEIGHT), end='')
+    pre_order(left[node])
+    pre_order(right[node])
 
 
-def inorder(n):
-    if left[n] != '.':
-        inorder(left[n])
-    print(n, end='')
-    if right[n] != '.':
-        inorder(right[n])
+def in_order(node):
+    if node == -1:
+        return
+    in_order(left[node])
+    print(chr(node + WEIGHT), end='')
+    in_order(right[node])
 
 
-def postorder(n):
-    if left[n] != '.':
-        postorder(left[n])
-    if right[n] != '.':
-        postorder(right[n])
-    print(n, end='')
+def post_order(node):
+    if node == -1:
+        return
+    post_order(left[node])
+    post_order(right[node])
+    print(chr(node + WEIGHT), end='')
 
 
-preorder('A')
+pre_order(0)
 print()
-inorder('A')
+in_order(0)
 print()
-postorder('A')
-print()
+post_order(0)

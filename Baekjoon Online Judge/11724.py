@@ -1,27 +1,30 @@
 import sys
 from collections import deque
+
 input = sys.stdin.readline
 
 N, M = map(int, input().split())
-
 graph = [[] for _ in range(N + 1)]
-
 for _ in range(M):
     u, v = map(int, input().split())
     graph[u].append(v)
     graph[v].append(u)
 
+q = deque()
 visited = [False] * (N + 1)
-count = 0
-for u in range(1, N + 1):
-    if visited[u]:
+answer = 0
+for i in range(1, N + 1):
+    if visited[i]:
         continue
-    q = deque([u])
+    visited[i] = True
+    answer += 1
+    q.append(i)
     while q:
-        now = q.popleft()
-        for v in graph[now]:
-            if not visited[v]:
-                visited[v] = True
-                q.append(v)
-    count += 1
-print(count)
+        u = q.popleft()
+        for v in graph[u]:
+            if visited[v]:
+                continue
+            visited[v] = True
+            q.append(v)
+
+print(answer)
